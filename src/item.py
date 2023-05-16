@@ -62,3 +62,9 @@ class Item:
                 quantity = cls.string_to_number(row['quantity'])
                 cls.all.append(cls(name, price, quantity))  # создаем экзмляры классы и кладем их в список
 
+    def __repr__(self):
+        return f"Item('{self.name}', {self.price}, {self.quantity})"
+
+    def __str__(self):
+        return self.name
+
