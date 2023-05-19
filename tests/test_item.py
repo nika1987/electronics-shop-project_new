@@ -46,4 +46,3 @@ def test_item_repr():
 def test_item_str():
     item = Item("test item", 10.99, 5)
     assert str(item) == "test item"
-
