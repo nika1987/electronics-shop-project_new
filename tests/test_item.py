@@ -39,6 +39,7 @@ def test_instantiate_from_csv(items_csv):
     assert items_csv[2].price == 1000
     assert items_csv[2].quantity == 3
 
+
 def test_item_repr():
     item = Item("test item", 10.99, 5)
     assert repr(item) == "Item('test item', 10.99, 5)"
@@ -46,3 +47,7 @@ def test_item_repr():
 def test_item_str():
     item = Item("test item", 10.99, 5)
     assert str(item) == "test item"
+
+def test_instantiate_from_csv_error():
+    assert Item.instantiate_from_csv("text.txt") == "Отсутствует файл text.txt"
+    #assert Item.instantiate_from_csv('../poetry.lock') == "Файл ../poetry.lock поврежден"

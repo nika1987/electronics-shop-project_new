@@ -53,14 +53,19 @@ class Item:
         """
         класс-метод, инициализирующий экземпляры класса `Item` данными из файла _src/items.csv_
         """
-        with open(filename) as f:
-            reader = csv.DictReader(f)
-            cls.all.clear()
-            for row in reader:
-                name = row['name']
-                price = cls.string_to_number(row['price'])
-                quantity = cls.string_to_number(row['quantity'])
-                cls.all.append(cls(name, price, quantity))  # создаем экзмляры классы и кладем их в список
+        try:
+            with open(filename) as f:
+                reader = csv.DictReader(f)
+                cls.all.clear()
+                for row in reader:
+                    name = row['name']
+                    price = cls.string_to_number(row['price'])
+                    quantity = cls.string_to_number(row['quantity'])
+                    cls.all.append(cls(name, price, quantity))  # создаем экзмляры классы и кладем их в список
+        except FileNotFoundError:
+            return f"Отсутствует файл {filename}"
+        except InstantiateCSVError:
+            return f"Файл {filename} поврежден"
 
     def __repr__(self):
         return f"Item('{self.name}', {self.price}, {self.quantity})"
@@ -69,3 +74,8 @@ class Item:
         return self.name
 
 
+class InstantiateCSVError(BaseException):
+    pass
+
+
+Item.instantiate_from_csv("items.csv")
