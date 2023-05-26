@@ -1,23 +1,26 @@
 from src.item import Item
 
 
-class KeyBoard(Item):
+class KeyboardMixin:
     """
-    Класс, представляющий клавиатуру.
+    Миксин, представляющий функциональность изменения раскладки клавиатуры.
     """
-    language: str = 'EN'
 
-    def __init__(self, name: str, price: float, quantity: int):
+    def __init__(self):
         """
-        Инициализация объекта KeyBoard.
-        Параметры:
-            name (str): Название клавиатуры.
-            price (float): Цена клавиатуры.
-            quantity (int): Количество клавиатур.
+        Инициализация объекта KeyboardMixin.
         """
-        super().__init__(name, price, quantity)
+        self.__language = "EN"
 
-    def change_lang(self, new_lang: str = 'RU') -> 'KeyBoard':
+    @property
+    def language(self):
+        return self.__language
+
+    @language.setter
+    def language(self, value):
+        self.__language = value
+
+    def change_lang(self, new_lang: str = 'RU'):
         """
         Изменяет язык клавиатуры.
         Параметры:
@@ -26,29 +29,26 @@ class KeyBoard(Item):
             KeyBoard: Объект KeyBoard с измененным языком.
         """
         if new_lang.lower() == 'en':
-            self.language = 'EN'
+            self.__language = 'EN'
         elif new_lang.lower() == 'ru':
-            self.language = 'RU'
+            self.__language = 'RU'
         else:
             raise AttributeError('AttributeError')
         return self
 
 
-class KeyboardMixin:
+class KeyBoard(Item, KeyboardMixin):
     """
-    Миксин, представляющий функциональность изменения раскладки клавиатуры.
+    Класс, представляющий клавиатуру.
     """
-    def __init__(self, *args, **kwargs):
-        """
-        Инициализация объекта KeyboardMixin.
-        """
-        super().__init__(*args, **kwargs)
-        self.keyboard_layout = 'QWERY'
 
-    def change_layout(self, new_layout: str) -> None:
+    def __init__(self, name, price, quantity):
         """
-        Изменяет раскладку клавиатуры.
+        Инициализация объекта KeyBoard.
         Параметры:
-            new_layout (str): Новая раскладка клавиатуры.
+            name (str): Название клавиатуры.
+            price (float): Цена клавиатуры.
+            quantity (int): Количество клавиатур.
         """
-        self.keyboard_layout = new_layout
+        super().__init__(name, price, quantity)
+        KeyboardMixin.__init__(self)
